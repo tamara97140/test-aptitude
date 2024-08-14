@@ -3,16 +3,11 @@
 namespace App\Controller;
 
 use App\Document\Depots;
-use App\Document\Restaurant;
-use DateTime;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use MongoDB\BSON\Regex;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class DepotController extends AbstractController
 {
@@ -25,12 +20,17 @@ class DepotController extends AbstractController
     }
 
     /**
-     * @Route("/depots/{reference}/{dateParam}", name="depots_filtered", methods={"GET"})
+     * @Route("/depots/{reference}/{dateParam}", name="depots_filtered", methods={"POST"})
      */
-    public function index(string $reference = null, string $dateParam = null): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-           $date = str_replace('-','/', $dateParam);
+            // Retrieve JSON payload
+            $data = json_decode($request->getContent(), true);
+
+            // Extract parameters and handle 'null' values
+            $reference = $data['reference'] ?? null;
+            $dateParam = $data['date'] ?? null;
 
             // Retrieve depot documents from MongoDB
             $depotRepository = $this->dm->getRepository(Depots::class);
@@ -40,7 +40,8 @@ class DepotController extends AbstractController
             if ($reference) {
                 $query['REFERENCE'] = $reference;
             }
-            if ($date) {
+            if ($dateParam) {
+                $date = str_replace('-', '/', $dateParam); // Convert d-m-Y to d/m/Y
                 $query['date_depot'] = $date;
             }
 

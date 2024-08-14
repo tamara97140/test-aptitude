@@ -1,53 +1,256 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="stringInput">Chaîne de caractères:</label>
-      <input
-          type="text"
-          id="stringInput"
-          v-model="stringValue"
-          placeholder="Entrez une chaîne de caractères"
-      />
-    </div>
-    <div>
-      <label for="dateInput">Date:</label>
-      <input
-          type="date"
-          id="dateInput"
-          v-model="dateValue"
-      />
-    </div>
-    <button type="submit">Soumettre</button>
-  </form>
-  <div v-if="submitted">
-    <h2>Données soumises :</h2>
-    <p>Chaîne de caractères : {{ stringValue }}</p>
-    <p>Date : {{ dateValue }}</p>
-  </div>
   <table role="grid">
     <thead>
-    <tr
-        v-if="items.length"
-    >
-      <th
-          v-for="key in Object.keys(items[0])"
-      >
-        {{ key }}
-        <a
-            @click.prevent="sortBy(key, 'asc')"
-            href="#"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 16px;">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
+    <tr>
+      <th>
+        Référence
+        <a @click.prevent="sortBy('reference', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
           </svg>
         </a>
 
-        <a
-            @click.prevent="sortBy(key, 'desc')"
-            href="#"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 16px;">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75" />
+        <a @click.prevent="sortBy('reference', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Déposé le
+        <a @click.prevent="sortBy('date', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('date', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Demandeur
+        <a @click.prevent="sortBy('demandeur', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('demandeur', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Surface (m²)
+        <a @click.prevent="sortBy('surface', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('surface', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Nature des traveaux
+        <a @click.prevent="sortBy('nature', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('nature', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Adresse du terrain
+        <a @click.prevent="sortBy('adresse', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('adresse', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
+          </svg>
+        </a>
+      </th>
+      <th>
+        Ref cadastrales
+        <a @click.prevent="sortBy('ref_cad', 'asc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75"
+            />
+          </svg>
+        </a>
+
+        <a @click.prevent="sortBy('ref_cad', 'desc')" href="#">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              style="width: 16px"
+          >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+            />
           </svg>
         </a>
       </th>

@@ -1,7 +1,7 @@
 depots:
     path: /depots/{reference}/{dateParam}
     controller: App\Controller\DepotController::index
-    methods: GET
+    methods: POST
     defaults:
         reference: null
         dateParam: null
